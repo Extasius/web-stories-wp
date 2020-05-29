@@ -15,16 +15,9 @@
  */
 
 /**
- * External dependencies
- */
-/**
  * Internal dependencies
  */
 import { migrate } from '../../edit-story/migration';
-
-/**
- * Internal dependencies
- */
 import getBeautyStoryData from './data/beauty';
 import getCookingStoryData from './data/cooking';
 import getDIYStoryData from './data/diy';
