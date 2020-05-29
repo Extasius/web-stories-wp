@@ -27,15 +27,15 @@ import getFitnessStoryData from './data/fitness';
 import getTravelStoryData from './data/travel';
 import getWellbeingStoryData from './data/wellbeing';
 
-const migrationCache = {};
+const migrationCache = new Map();
 
 function migrateTemplate(key, getStoryData, url) {
-  if (!migrationCache[key]) {
+  if (!migrationCache.has(key)) {
     const storyData = getStoryData(url);
-    migrationCache[key] = migrate(storyData, storyData.version);
+    migrationCache.set(key, migrate(storyData, storyData.version));
   }
 
-  return migrationCache[key];
+  return migrationCache.get(key);
 }
 
 export default function (config) {
