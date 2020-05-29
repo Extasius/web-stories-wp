@@ -68,6 +68,10 @@ const DateHelperText = styled.span`
   }
 `;
 
+const RenameInput = styled(TextInput)`
+  max-width: 100%;
+`;
+
 const CardTitle = ({
   secondaryTitle,
   title,
@@ -132,7 +136,7 @@ const CardTitle = ({
     <StyledCardTitle>
       {editMode ? (
         <div ref={inputContainerRef}>
-          <TextInput
+          <RenameInput
             data-testid={'title-rename-input'}
             value={newTitle}
             onKeyDown={handleKeyPress}
