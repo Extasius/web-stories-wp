@@ -15,6 +15,14 @@
  */
 
 /**
+ * External dependencies
+ */
+/**
+ * Internal dependencies
+ */
+import { migrate } from '../../edit-story/migration';
+
+/**
  * Internal dependencies
  */
 import getBeautyStoryData from './data/beauty';
@@ -26,16 +34,56 @@ import getFitnessStoryData from './data/fitness';
 import getTravelStoryData from './data/travel';
 import getWellbeingStoryData from './data/wellbeing';
 
+const migrationCache = {};
+
+function migrateTemplate(key, getStoryData, url) {
+  if (!migrationCache[key]) {
+    const storyData = getStoryData(url);
+    migrationCache[key] = migrate(storyData, storyData.version);
+  }
+
+  return migrationCache[key];
+}
+
 export default function (config) {
   const { assetsURL } = config;
-  const beautyStoryData = getBeautyStoryData(assetsURL);
-  const cookingStoryData = getCookingStoryData(assetsURL);
-  const diyStoryData = getDIYStoryData(assetsURL);
-  const entertainmentData = getEntertainmentStoryData(assetsURL);
-  const fashionStoryData = getFashionStoryData(assetsURL);
-  const fitnessStoryData = getFitnessStoryData(assetsURL);
-  const travelStoryData = getTravelStoryData(assetsURL);
-  const wellbeingStoryData = getWellbeingStoryData(assetsURL);
+
+  const beautyStoryData = migrateTemplate(
+    'beauty',
+    getBeautyStoryData,
+    assetsURL
+  );
+  const cookingStoryData = migrateTemplate(
+    'cooking',
+    getCookingStoryData,
+    assetsURL
+  );
+  const diyStoryData = migrateTemplate('diy', getDIYStoryData, assetsURL);
+  const entertainmentData = migrateTemplate(
+    'entertainment',
+    getEntertainmentStoryData,
+    assetsURL
+  );
+  const fashionStoryData = migrateTemplate(
+    'fashion',
+    getFashionStoryData,
+    assetsURL
+  );
+  const fitnessStoryData = migrateTemplate(
+    'fitness',
+    getFitnessStoryData,
+    assetsURL
+  );
+  const travelStoryData = migrateTemplate(
+    'travel',
+    getTravelStoryData,
+    assetsURL
+  );
+  const wellbeingStoryData = migrateTemplate(
+    'wellbeing',
+    getWellbeingStoryData,
+    assetsURL
+  );
 
   const globalConfig = {
     createdBy: 'Google Web Stories',
